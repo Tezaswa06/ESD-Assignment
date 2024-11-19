@@ -1,11 +1,11 @@
-package services;
+package com.esd.assignment.services;
 
-import dto.LoginRequest;
-import dto.LoginResponse;
-import dto.RegisterRequest;
-import entities.Admin;
+import com.esd.assignment.dto.LoginRequest;
+import com.esd.assignment.dto.LoginResponse;
+import com.esd.assignment.dto.RegisterRequest;
+import com.esd.assignment.entities.Admin;
 import org.springframework.stereotype.Service;
-import repository.AdminRepository;
+import com.esd.assignment.repository.AdminRepository;
 
 import java.util.Optional;
 

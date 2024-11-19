@@ -1,6 +1,6 @@
-package repository;
+package com.esd.assignment.repository;
 
-import entities.Admin;
+import com.esd.assignment.entities.Admin;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 

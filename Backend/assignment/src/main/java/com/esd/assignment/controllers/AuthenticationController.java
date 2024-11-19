@@ -1,15 +1,15 @@
-package controllers;
+package com.esd.assignment.controllers;
 
-import dto.LoginRequest;
-import dto.LoginResponse;
-import dto.RegisterRequest;
+import com.esd.assignment.dto.LoginRequest;
+import com.esd.assignment.dto.LoginResponse;
+import com.esd.assignment.dto.RegisterRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import services.AuthenticationService;
+import com.esd.assignment.services.AuthenticationService;
 
 @RestController
 @RequestMapping(path = "/api/auth")

@@ -1,4 +1,4 @@
-package dto;
+package com.esd.assignment.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,8 +9,10 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoginRequest {
+public class RegisterRequest {
 
     private String adminEmail;
     private String password;
+    private String adminName;
+    private String phone;
 }

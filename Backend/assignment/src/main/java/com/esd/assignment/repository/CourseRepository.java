@@ -1,10 +1,14 @@
-package repository;
+package com.esd.assignment.repository;
 
-import entities.Course;
+import com.esd.assignment.entities.Course;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
+
+import java.util.Collection;
+import java.util.List;
 
 @Repository
 public interface CourseRepository extends MongoRepository<Course, String> {
 
+    List<Course> findByStudentsNotEmpty();
 }

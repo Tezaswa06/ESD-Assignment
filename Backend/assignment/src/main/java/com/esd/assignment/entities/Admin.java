@@ -1,4 +1,4 @@
-package entities;
+package com.esd.assignment.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,7 +15,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Admin {
 
     @Id
-    private Long id;
+    private String id;
 
     private String adminName;
 

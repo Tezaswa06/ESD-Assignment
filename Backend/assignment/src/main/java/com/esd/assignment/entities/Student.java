@@ -1,6 +1,10 @@
-package entities;
+package com.esd.assignment.entities;
 
-import lombok.*;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -9,19 +13,17 @@ import java.util.List;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Document
-public class Instructor {
+public class Student {
 
     @Id
-    private String instructorId;
+    private String studentRoll;
 
-    private String instructorName;
+    private String studentName;
 
-    private String instructorEmail;
-
-    private String instructorPhone;
+    private String studentEmail;
 
     @DBRef
     private List<Course> courses;

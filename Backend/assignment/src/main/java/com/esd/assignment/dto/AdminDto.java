@@ -1,16 +1,16 @@
-package dto;
+package com.esd.assignment.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
 @Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoginResponse {
+public class AdminDto {
 
-    private String message;
-    private Long adminId;
+    public String adminName;
+    public String adminEmail;
 }

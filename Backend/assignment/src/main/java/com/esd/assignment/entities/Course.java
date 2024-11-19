@@ -1,4 +1,4 @@
-package entities;
+package com.esd.assignment.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
