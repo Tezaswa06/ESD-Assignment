@@ -1,28 +1,35 @@
 package com.esd.assignment.entities;
 
+import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
-import org.springframework.data.mongodb.core.mapping.Document;
+
 
 import java.util.List;
+
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Document
+@Entity
+@Table(name = "instructor")
 public class Instructor {
 
     @Id
-    private String instructorId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "instructor_id")
+    private Long instructorId;
 
+    @Column(name = "instructor_name")
     private String instructorName;
 
+    @Column(name = "instructor_email")
     private String instructorEmail;
 
+    @Column(name = "instructor_phone")
     private String instructorPhone;
 
-    @DBRef
+    @OneToMany(mappedBy = "courseInstructor")
     private List<Course> courses;
+
 }

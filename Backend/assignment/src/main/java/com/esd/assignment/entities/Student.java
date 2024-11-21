@@ -1,13 +1,12 @@
 package com.esd.assignment.entities;
 
 
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
-import org.springframework.data.mongodb.core.mapping.Document;
+
 
 import java.util.List;
 
@@ -15,16 +14,22 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Document
+@Entity
+@Table(name = "student")
 public class Student {
 
     @Id
-    private String studentRoll;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "student_roll")
+    private Long studentRoll;
 
+    @Column(name = "student_name")
     private String studentName;
 
+    @Column(name = "student_email")
     private String studentEmail;
 
-    @DBRef
+    @ManyToMany(mappedBy = "students")
     private List<Course> courses;
+
 }

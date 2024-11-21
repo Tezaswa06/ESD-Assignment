@@ -26,9 +26,9 @@ public class AdminController {
         return new ResponseEntity<>(courses, HttpStatus.OK);
     }
 
-    @PutMapping(path = "/courses/{courseId}/instructor")
-    public ResponseEntity<String> updateCourseInstructor(@PathVariable String courseId ,@RequestParam String instructorName){
-        courseService.updateCourseInstructor(courseId,instructorName);
+    @PutMapping(path = "/courses/{courseId}/{instructorId}")
+    public ResponseEntity<String> updateCourseInstructor(@PathVariable Long courseId ,@PathVariable Long instructorId) {
+        courseService.updateCourseInstructor(courseId,instructorId);
         return ResponseEntity.ok("Instructor Name updated successfully");
     }
 

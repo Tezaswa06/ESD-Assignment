@@ -1,9 +1,6 @@
 package com.esd.assignment.extras;
 
-import com.esd.assignment.dto.AdminDto;
-import com.esd.assignment.dto.CourseDto;
-import com.esd.assignment.dto.InstructorDto;
-import com.esd.assignment.dto.StudentDto;
+import com.esd.assignment.dto.*;
 import com.esd.assignment.entities.Admin;
 import com.esd.assignment.entities.Course;
 import com.esd.assignment.entities.Instructor;
@@ -31,30 +28,21 @@ public class AuxService {
         this.instructorRepository = instructorRepository;
     }
 
-    private void addCourses(List<CourseDto> courseDtoList){
+    private void addCourses(List<CourseDto> courseDtoList) {
         courseDtoList.forEach(courseDto -> {
             Course course = new Course();
-            course.setCourseId(courseDto.getCourseId());
             course.setCourseName(courseDto.getCourseName());
             course.setCourseDescription(courseDto.getDescription());
-            Instructor instructor = new Instructor();
-            instructor.setInstructorName(courseDto.getInstructorName());
-            course.setInstructor(instructor);
-
-            List<Student> studentList = courseDto.getStudentList();
-            course.setStudents(studentList);
             courseRepository.save(course);
         });
     }
+
 
     private void addStudents(List<StudentDto> studentDtoList){
         studentDtoList.forEach(studentDto -> {
             Student student = new Student();
             student.setStudentName(studentDto.getStudentName());
             student.setStudentEmail(studentDto.getStudentEmail());
-
-            List<Course>courses = courseRepository.findAll();
-            student.setCourses(courses);
             studentRepository.save(student);
         });
     }
@@ -62,9 +50,8 @@ public class AuxService {
     private void addInstructors(List<InstructorDto> instructorDtoList){
         instructorDtoList.forEach(instructorDto -> {
             Instructor instructor = new Instructor();
-            instructor.setInstructorName(instructorDto.getInstructorName());
+            instructor.setInstructorName(String.valueOf(instructorDto.getInstructorId()));
             instructor.setInstructorEmail(instructorDto.getInstructorEmail());
-            instructor.setCourses(courseRepository.findAll());
             instructorRepository.save(instructor);
         });
     }
@@ -78,10 +65,32 @@ public class AuxService {
         });
     }
 
+    private void mapCoursesToInstructors(List<CourseAndInstructorMappingDto> courseAndInstructorMappingDtos){
+        courseAndInstructorMappingDtos.forEach(x -> {
+            Course course = courseRepository.findById(x.getCourseId()).orElseThrow();
+            Instructor instructor = instructorRepository.findById(x.getInstructorId()).orElseThrow();
+            course.setCourseInstructor(instructor);
+            courseRepository.save(course);
+        });
+    }
+
+    private void mapCoursesToStudents(List<CourseAndStudentMappingDto> courseAndStudentMappingDtos){
+        courseAndStudentMappingDtos.forEach(x -> {
+            Course course = courseRepository.findById(x.getCourseId()).orElseThrow();
+            x.getStudentIds().forEach(studentId -> {
+                Student student = studentRepository.findById(studentId).orElseThrow();
+                course.getStudents().add(student);
+            });
+            courseRepository.save(course);
+        });
+    }
+
     public void startup(StartupDto startupDto){
         this.addAdmins(startupDto.getAdmins());
-        this.addCourses(startupDto.getCourses());
         this.addStudents(startupDto.getStudents());
         this.addInstructors(startupDto.getInstructors());
+        this.addCourses(startupDto.getCourses());
+        this.mapCoursesToInstructors(startupDto.getCourseAndInstructorMappings());
+        this.mapCoursesToStudents(startupDto.getCourseAndStudentMappings());
     }
 }

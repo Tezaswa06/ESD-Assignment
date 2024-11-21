@@ -1,9 +1,6 @@
 package com.esd.assignment.extras.dtos;
 
-import com.esd.assignment.dto.AdminDto;
-import com.esd.assignment.dto.CourseDto;
-import com.esd.assignment.dto.InstructorDto;
-import com.esd.assignment.dto.StudentDto;
+import com.esd.assignment.dto.*;
 import lombok.*;
 
 import java.util.List;
@@ -18,4 +15,7 @@ public class StartupDto {
     private List<CourseDto> courses;
     private List<StudentDto> students;
     private List<InstructorDto> instructors;
+    private List<CourseAndInstructorMappingDto> courseAndInstructorMappings;
+    private List<CourseAndStudentMappingDto> courseAndStudentMappings;
 }
+

@@ -1,27 +1,34 @@
 package com.esd.assignment.entities;
 
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Document
+@Entity
+@Table(name = "admin")
 public class Admin {
 
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "admin_id")
+    private Long adminId;
 
+    @Column(name = "admin_name")
     private String adminName;
 
+    @Column(name = "password")
     private String password;
 
+    @Column(name = "admin_Email")
     private String adminEmail;
 
+    @Column(name = "admin_Phone")
     private String phone;
 }

@@ -39,7 +39,7 @@ public class AuthenticationService {
         if(admin.isPresent()) {
             Admin admin1 = admin.get();
             if(admin1.getPassword().equals(loginRequest.getPassword())) {
-                return new LoginResponse("Login Sucessfull" , admin1.getId());
+                return new LoginResponse("Login Sucessfull",admin1.getAdminName() );
             }
             else{
                 return new LoginResponse("Wrong Password" , null);

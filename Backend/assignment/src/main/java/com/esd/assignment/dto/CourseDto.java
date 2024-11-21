@@ -16,7 +16,7 @@ public class CourseDto {
 
     private String courseName;
     private String description;
-    private String courseId;
-    private String instructorName;
-    private List<Student> studentList;
+    private Long courseId;
+    private InstructorDto instructor;
+    private List<StudentDto> studentList;
 }

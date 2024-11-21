@@ -24,34 +24,36 @@ public class CourseService {
         return courseRepository.findAll();
     }
 
-    public void updateCourseInstructor(String courseId,String instructorName) {
+    public void updateCourseInstructor(Long courseId, Long instructorId) {
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new RuntimeException("Course not found with ID: " + courseId));
-        Instructor instructor = instructorRepository.findById(instructorName)
-                .orElseThrow(() -> new RuntimeException("Instructor not found with name: " + instructorName));
+        Instructor instructor = instructorRepository.findById(instructorId)
+                .orElseThrow(() -> new RuntimeException("Instructor not found with name: " + instructorId));
 
-        course.setInstructor(instructor);
+        course.setCourseInstructor(instructor);
         courseRepository.save(course);
     }
 
+
     public void deleteCourse(String courseId) {
-        Course course = courseRepository.findById(courseId)
+        Course course = courseRepository.findById(Long.valueOf(courseId))
                 .orElseThrow(() -> new RuntimeException("Course not found with ID: " + courseId));
 
-        for(Student student : course.getStudents()) {
-            student.getCourses().removeIf(c -> c.getCourseId().equals(courseId));
+        // Remove the course from all students' course lists
+        for (Student student : course.getStudents()) {
+            student.getCourses().removeIf(c -> c.getCourseId().equals(Long.valueOf(courseId)));
         }
 
-        Instructor instructor = course.getInstructor();
-        if(instructor != null) {
-            instructor.getCourses().removeIf(c -> c.getCourseId().equals(courseId));
+        // Remove the course from the instructor's course list
+        Instructor instructor = course.getCourseInstructor(); // Ensure field name matches
+        if (instructor != null) {
+            instructor.getCourses().removeIf(c -> c.getCourseId().equals(Long.valueOf(courseId)));
         }
+
+        // Delete the course
         courseRepository.delete(course);
     }
 
-    public List<Course> getCoursesWithRegisteredStudents(){
-        return courseRepository.findByStudentsNotEmpty();
-    }
 
 
 }
