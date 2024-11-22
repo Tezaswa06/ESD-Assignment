@@ -20,7 +20,7 @@ const Signup = () => {
         phoneNumber: "",
         password: "",
         role: "",
-        file: ""
+       
     })
     const {loading} = useSelector(store=>store.auth)
     const dispatch = useDispatch()
@@ -29,39 +29,31 @@ const Signup = () => {
         setInput({ ...input, [e.target.name]: e.target.value })
     }
 
-    const changeFileHandler = (e) => {
-        setInput({ ...input, file: e.target.files?.[0] })
-    }
+    
     const submitHandler = async (e) => {
         e.preventDefault()
-        const formData = new FormData()
-        formData.append("fullName", input.fullname)
-        formData.append("email", input.email)
-        formData.append("phoneNumber", input.phoneNumber)
-        formData.append("password", input.password)
-        formData.append("role", input.role)
-
-        if (input.file) {
-            formData.append("file", input.file)
+        
+       
+    console.log(input.role);
+      if(input.role==='admin'){
+        const inp = {
+            adminEmail:input.email,
+            password:input.password,
+            adminName:input.fullname,
+            phone:input.phoneNumber
         }
-
         try {
             dispatch(setLoading(true))
-            const res = await axios.post(`${USER_API_END_POINT}/register`, formData, {
-                headers: {
-                    "Content-Type": "multipart/form-data"
-                },
-                withCredentials: true
-            })
-            if (res.data.success) {
+            const res = await axios.post(`http://localhost:8080/api/auth/registerAdmin`, inp)
+            if (res.data) {
                 navigate("/login")
-                toast.success(res.data.message)
+                toast.success(res.data)
             }
         } catch (error) {
             console.log(error.response?.data);
         }finally{
             dispatch(setLoading(false))
-        }
+        }}
 
     }
 
@@ -128,24 +120,16 @@ const Signup = () => {
                                 <Input
                                     type='radio'
                                     name='role'
-                                    checked={input.role === 'recuiter'}
+                                    checked={input.role === 'admin'}
                                     onChange={changeEventHandler}
-                                    value='recuiter'
+                                    value='admin'
                                     className='cursor-pointer'
                                 />
-                                <Label htmlFor="option-two">recuiter</Label>
+                                <Label htmlFor="option-two">Admin</Label>
                             </div>
                         </RadioGroup>
 
-                        <div className='flex items-center gap-2'>
-                            <Label>Profile</Label>
-                            <Input
-                                accept="image/*"
-                                type='file'
-                                onChange={changeFileHandler}
-                                className='cursor-pointer'
-                            />
-                        </div>
+                     
                     </div>
                     {
                         loading? <Button><Loader2 className='mr-2 h-4 w-4 animate-spin'/>Please wait</Button> :

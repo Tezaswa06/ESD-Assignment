@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setLoading, setUser } from '@/redux/authSlice'
 import { Loader2 } from 'lucide-react'
 const Login = () => {
+    const [role,setRole] = useState('admin')
     const [input,setInput] = useState({
         adminEmail:"",
         password:"",
@@ -24,29 +25,64 @@ const Login = () => {
     const dispatch = useDispatch()
     const changeEventHandler = (e)=>{
         setInput({...input,[e.target.name]:e.target.value})
+      
     }
+    
+    const changeRoleHandler=(e)=>{
+        setRole(e.target.value)
+    }
+
     const submitHandler = async (e) => {
         e.preventDefault()
         
-
+    if(role==='admin'){
         try {
-             dispatch(setLoading(true))
-            const res = await axios.post(`http://localhost:8080/api/auth/loginAdmin`, input, {
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            })
-            if (res.data.success) {
-                dispatch(setUser(res.data.user))
+            dispatch(setLoading(true));
+    
+            const res = await axios.post(
+                `http://localhost:8080/api/auth/loginAdmin`,
+                input
+            );
+
+            if(res.data.message=="Login Sucessfull"){
+                dispatch(setUser(res.data.adminId))
                 navigate("/")
                 toast.success(res.data.message)
             }
+    
+            dispatch(setLoading(false));
+            console.log(res.data);
+            return res.data; // Handle the response
         } catch (error) {
-            console.log(error.response?.data);
-
+            dispatch(setLoading(false));
+            console.error("Error during login:", error.response?.data || error.message);
         }finally{
             dispatch(setLoading(false))
-        }
+        }}
+
+        if(role==='student'){
+            try {
+                dispatch(setLoading(true));
+
+                const inp = {
+                    studentEmail:adminEmail,
+                    password:password
+                }
+        
+                const res = await axios.post(
+                    `http://localhost:8080/api/auth/loginStudent`,
+                    inp
+                );
+        
+                dispatch(setLoading(false));
+                console.log(res.data);
+                return res.data; // Handle the response
+            } catch (error) {
+                dispatch(setLoading(false));
+                console.error("Error during login:", error.response?.data || error.message);
+            }finally{
+                dispatch(setLoading(false))
+            }}
 
     }
     
@@ -77,14 +113,14 @@ const Login = () => {
                              onChange={changeEventHandler}
                         />
                     </div>
-                    {/* <div className='flex justify-between items-center'>
+                    <div className='flex justify-between items-center'>
                         <RadioGroup className='flex items-center gap-4 my-2'>
                             <div className="flex items-center space-x-2">
                                 <Input
                                type='radio'
                                name='role'
-                               checked={input.role==='student'}
-                               onChange={changeEventHandler}
+                               checked={role==='student'}
+                               onChange={changeRoleHandler}
                                value='student'
                                className='cursor-pointer'
                                 />
@@ -94,15 +130,15 @@ const Login = () => {
                             <Input
                                   type='radio'
                                   name='role'
-                                  checked={input.role==='recuiter'}
-                                  onChange={changeEventHandler}
+                                  checked={role==='admin'}
+                                  onChange={changeRoleHandler}
                                   value='recuiter'
                                   className='cursor-pointer'
                                 />
                                 <Label htmlFor="option-two">Admin</Label>
                             </div>
                         </RadioGroup>
-                    </div> */}
+                    </div>
                     {
                         loading? <Button><Loader2 className='mr-2 h-4 w-4 animate-spin'/>Please wait</Button> :
                         <Button type='submit' className='w-full my-4'>Login</Button>
