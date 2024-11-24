@@ -16,18 +16,14 @@ const Navbar = () => {
     const { user } = useSelector(store => store.auth)
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const logoutHandler = async () => {
-        try {
-            const res = await axios.get(`${USER_API_END_POINT}/logout`, { withCredentials: true });
-            if (res.data.success) {
+    const logoutHandler =  () => {
+        
+           
                 dispatch(setUser(null));
                 navigate("/");
-                toast.success(res.data.message);
-            }
-        } catch (error) {
-            console.log(error);
-            toast.error(error.response.data.message);
-        }
+                toast.success("Logged out Successfully");
+            
+        
     }
     return (
         <div className='bg-white'>
@@ -40,7 +36,7 @@ const Navbar = () => {
                         {
                             user ? (
                                 <>
-                                    <li><Link to='/admin/companies'> Courses</Link></li>
+                                    <li><Link to='/courses'> Courses</Link></li>
                                    
                                 </>
                             ) :
@@ -79,7 +75,7 @@ const Navbar = () => {
                                         </Avatar>
                                         <div>
                                             <h4 className='font-medium'>{user?.fullName}</h4>
-                                            <p className='text-sm text-muted-foreground'> {user && user.role === 'student' ? (user?.profile?.bio) : <span>Recruiter</span>}</p>
+                                            <p className='text-sm font-bold text-muted-foreground '> {user && user.role === 'student' ? (user?.profile?.bio) : <span>Admin</span>}</p>
 
                                         </div>
 

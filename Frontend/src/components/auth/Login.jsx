@@ -113,32 +113,7 @@ const Login = () => {
                              onChange={changeEventHandler}
                         />
                     </div>
-                    <div className='flex justify-between items-center'>
-                        <RadioGroup className='flex items-center gap-4 my-2'>
-                            <div className="flex items-center space-x-2">
-                                <Input
-                               type='radio'
-                               name='role'
-                               checked={role==='student'}
-                               onChange={changeRoleHandler}
-                               value='student'
-                               className='cursor-pointer'
-                                />
-                                <Label htmlFor="option-one">Student</Label>
-                            </div>
-                            <div className="flex items-center space-x-2">
-                            <Input
-                                  type='radio'
-                                  name='role'
-                                  checked={role==='admin'}
-                                  onChange={changeRoleHandler}
-                                  value='recuiter'
-                                  className='cursor-pointer'
-                                />
-                                <Label htmlFor="option-two">Admin</Label>
-                            </div>
-                        </RadioGroup>
-                    </div>
+                 
                     {
                         loading? <Button><Loader2 className='mr-2 h-4 w-4 animate-spin'/>Please wait</Button> :
                         <Button type='submit' className='w-full my-4'>Login</Button>
